@@ -10,7 +10,7 @@
     {
       "name": "open-in-otty",
       "title": "Open in Otty",
-      "description": "Open Otty with a new default window.",
+      "description": "Open the current Finder directory in Otty.",
       "mode": "no-view"
     },
     {

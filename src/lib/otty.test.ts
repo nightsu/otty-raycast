@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   DEFAULT_OTTY_CLI_PATH,
   buildOpenDirectoryArgs,
+  buildFinderDirectoryScriptArgs,
   buildRunCommandArgs,
   normalizeSshTarget,
 } from "./otty-core";
@@ -36,6 +37,14 @@ describe("Otty helper", () => {
       "-lc",
       "npm run dev",
     ]);
+  });
+
+  it("builds Finder directory script args with a desktop fallback", () => {
+    const args = buildFinderDirectoryScriptArgs();
+
+    expect(args[0]).toBe("-e");
+    expect(args.join("\n")).toContain("target of front Finder window");
+    expect(args.join("\n")).toContain("desktop as alias");
   });
 
   it("normalizes ssh URL input", () => {

@@ -27,6 +27,25 @@ export function buildRunCommandArgs(command: string): string[] {
   return ["open", "-e", "/bin/zsh", "-lc", command];
 }
 
+export function buildFinderDirectoryScriptArgs(): string[] {
+  return [
+    "-e",
+    'tell application "Finder"',
+    "-e",
+    "if (count of Finder windows) > 0 then",
+    "-e",
+    "POSIX path of (target of front Finder window as alias)",
+    "-e",
+    "else",
+    "-e",
+    "POSIX path of (desktop as alias)",
+    "-e",
+    "end if",
+    "-e",
+    "end tell",
+  ];
+}
+
 export function normalizeSshTarget(input: string): SshTarget {
   const value = input.trim();
   return value.startsWith("ssh://")

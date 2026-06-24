@@ -6,6 +6,7 @@ import { getPreferenceValues, showToast, Toast } from "@raycast/api";
 import {
   DEFAULT_OTTY_CLI_PATH,
   buildOpenDirectoryArgs,
+  buildFinderDirectoryScriptArgs,
   buildRunCommandArgs,
   normalizeSshTarget,
 } from "./otty-core";
@@ -15,6 +16,7 @@ const execFileAsync = promisify(execFile);
 export {
   DEFAULT_OTTY_CLI_PATH,
   buildOpenDirectoryArgs,
+  buildFinderDirectoryScriptArgs,
   buildRunCommandArgs,
   normalizeSshTarget,
 };
@@ -68,7 +70,26 @@ export async function runOttyCommand(
 }
 
 export async function openOtty(): Promise<void> {
-  await runOttyCommand("Opened Otty", ["open"]);
+  try {
+    const { stdout } = await execFileAsync(
+      "/usr/bin/osascript",
+      buildFinderDirectoryScriptArgs(),
+    );
+    const directory = stdout.trim();
+
+    if (!directory) {
+      throw new Error("Finder did not return a directory.");
+    }
+
+    await openDirectory(directory);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    await showToast({
+      style: Toast.Style.Failure,
+      title: "Could not read Finder directory",
+      message,
+    });
+  }
 }
 
 export async function openNewWindow(): Promise<void> {

@@ -4,7 +4,7 @@ Warp-style Raycast commands for the locally installed Otty terminal.
 
 ## Commands
 
-- Open in Otty
+- Open in Otty: open the current Finder window directory in Otty
 - New Window
 - New Tab
 - Open Directory
@@ -20,6 +20,9 @@ The extension defaults to:
 ```
 
 If your Otty CLI lives somewhere else, update the Raycast extension preference `Otty CLI Path`.
+
+`Open in Otty` reads the front Finder window directory through macOS Automation.
+On first use, macOS may ask you to allow Raycast to control Finder.
 
 ## Development
 
