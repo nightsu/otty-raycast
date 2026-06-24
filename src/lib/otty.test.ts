@@ -14,27 +14,18 @@ describe("Otty helper", () => {
     );
   });
 
-  it("builds open-directory args without embedding the directory in the shell source", () => {
+  it("builds open-directory args with Otty's path argument", () => {
     const command = buildOpenDirectoryArgs("/tmp/a dir; touch bad");
 
-    expect(command.args).toEqual([
-      "open",
-      "-e",
-      "/bin/zsh",
-      "-lc",
-      'cd "$OTTY_TARGET_DIR" && exec "${SHELL:-/bin/zsh}"',
-    ]);
-    expect(command.env).toMatchObject({
-      OTTY_TARGET_DIR: "/tmp/a dir; touch bad",
-    });
+    expect(command.args).toEqual(["open", "/tmp/a dir; touch bad"]);
+    expect(command.args).not.toContain("-e");
+    expect(command.env).toBeUndefined();
   });
 
-  it("builds run-command args as an explicit user shell command", () => {
+  it("builds run-command args with Otty's command option", () => {
     expect(buildRunCommandArgs("npm run dev")).toEqual([
       "open",
-      "-e",
-      "/bin/zsh",
-      "-lc",
+      "--command",
       "npm run dev",
     ]);
   });

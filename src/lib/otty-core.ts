@@ -12,19 +12,12 @@ export type SshTarget =
 
 export function buildOpenDirectoryArgs(directory: string): CommandArgs {
   return {
-    args: [
-      "open",
-      "-e",
-      "/bin/zsh",
-      "-lc",
-      'cd "$OTTY_TARGET_DIR" && exec "${SHELL:-/bin/zsh}"',
-    ],
-    env: { OTTY_TARGET_DIR: directory },
+    args: ["open", directory],
   };
 }
 
 export function buildRunCommandArgs(command: string): string[] {
-  return ["open", "-e", "/bin/zsh", "-lc", command];
+  return ["open", "--command", command];
 }
 
 export function buildFinderDirectoryScriptArgs(): string[] {
