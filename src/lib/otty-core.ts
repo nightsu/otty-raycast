@@ -16,6 +16,10 @@ export function buildOpenDirectoryArgs(directory: string): CommandArgs {
   };
 }
 
+export function buildOpenDirectoryTabArgs(directory: string): string[] {
+  return ["tab", "new", "--cwd", directory];
+}
+
 export function buildRunCommandArgs(command: string): string[] {
   return ["open", "--command", command];
 }

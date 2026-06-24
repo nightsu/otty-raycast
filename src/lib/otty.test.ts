@@ -3,6 +3,7 @@ import {
   DEFAULT_OTTY_CLI_PATH,
   buildOpenDirectoryArgs,
   buildFinderDirectoryScriptArgs,
+  buildOpenDirectoryTabArgs,
   buildRunCommandArgs,
   normalizeSshTarget,
 } from "./otty-core";
@@ -20,6 +21,15 @@ describe("Otty helper", () => {
     expect(command.args).toEqual(["open", "/tmp/a dir; touch bad"]);
     expect(command.args).not.toContain("-e");
     expect(command.env).toBeUndefined();
+  });
+
+  it("builds open-directory tab args with Otty's cwd option", () => {
+    expect(buildOpenDirectoryTabArgs("/tmp/project")).toEqual([
+      "tab",
+      "new",
+      "--cwd",
+      "/tmp/project",
+    ]);
   });
 
   it("builds run-command args with Otty's command option", () => {

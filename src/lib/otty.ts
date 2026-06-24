@@ -7,6 +7,7 @@ import {
   DEFAULT_OTTY_CLI_PATH,
   buildOpenDirectoryArgs,
   buildFinderDirectoryScriptArgs,
+  buildOpenDirectoryTabArgs,
   buildRunCommandArgs,
   normalizeSshTarget,
 } from "./otty-core";
@@ -17,6 +18,7 @@ export {
   DEFAULT_OTTY_CLI_PATH,
   buildOpenDirectoryArgs,
   buildFinderDirectoryScriptArgs,
+  buildOpenDirectoryTabArgs,
   buildRunCommandArgs,
   normalizeSshTarget,
 };
@@ -81,7 +83,7 @@ export async function openOtty(): Promise<void> {
       throw new Error("Finder did not return a directory.");
     }
 
-    await openDirectory(directory);
+    await openDirectoryInTab(directory);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     await showToast({
@@ -89,6 +91,23 @@ export async function openOtty(): Promise<void> {
       title: "Could not read Finder directory",
       message,
     });
+  }
+}
+
+export async function openDirectoryInTab(directory: string): Promise<void> {
+  try {
+    await runOtty(buildOpenDirectoryTabArgs(directory));
+    await showToast({
+      style: Toast.Style.Success,
+      title: "Opened Finder directory in Otty tab",
+    });
+  } catch {
+    const command = buildOpenDirectoryArgs(directory);
+    await runOttyCommand(
+      "Opened Finder directory in new Otty window",
+      command.args,
+      command.env,
+    );
   }
 }
 
