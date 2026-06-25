@@ -4,8 +4,15 @@
   "title": "Otty",
   "description": "Warp-style Raycast commands for the Otty terminal.",
   "icon": "command-icon.png",
-  "author": "ethan",
+  "author": "Ethan_Cao",
   "license": "MIT",
+  "categories": [
+    "Developer Tools",
+    "Productivity"
+  ],
+  "platforms": [
+    "macOS"
+  ],
   "commands": [
     {
       "name": "open-in-otty",
